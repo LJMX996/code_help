@@ -9,7 +9,7 @@
 
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
-
+8 12 * * * jd_jdfactory_help.js
  */
 const $ = new Env('东东工厂内部互助互助');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -17,7 +17,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 const randomCount = $.isNode() ? 20 : 5;
-let Code_num = process.env.code_num || 20;   //内置助力人数
+let Code_num = process.env.code_num || 15;   //内置助力人数
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
 if ($.isNode()) {

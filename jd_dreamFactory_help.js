@@ -4,7 +4,7 @@
 ============Quantumultx===============
 [task_local]
 #京喜工厂招工互助
-5 6,8,12 * * * jd_dreamFactory_help.js, tag=京喜工厂招工互助
+5 14 * * * jd_dreamFactory_help.js, tag=京喜工厂招工互助
 
  */
 // prettier-ignore
@@ -26,7 +26,7 @@ let tuanActiveId = ``, hasSend = false;
 const jxOpenUrl = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://wqsd.jd.com/pingou/dream_factory/index.html%22%20%7D`;
 let cookiesArr = [], cookie = '', message = '', allMessage = '', jdDreamFactoryShareArr = [];
 
-let Code_num = process.env.code_num || 20;   //内置助力人数
+let Code_num = process.env.code_num || 15;   //内置助力人数
 
 const newShareCodes = [
   'sb'

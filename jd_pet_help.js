@@ -3,7 +3,7 @@
 =================================Quantumultx=========================
 [task_local]
 #东东萌宠
-30 0,3,5,8 * * * jd_pet_help.js
+30 10,13 * * * jd_pet_help.js
 
 
 
@@ -12,7 +12,7 @@ const $ = new Env('东东萌宠内部互助');
 let cookiesArr = [], cookie = '', jdPetShareArr = [], isBox = false, allMessage = '';
 let message = '', subTitle = '', option = {};
 
-let Code_num = process.env.code_num || 20;   //内置助力人数
+let Code_num = process.env.code_num || 15;   //内置助力人数
 
 let jdNotify = false; //是否关闭通知，false打开通知推送，true关闭通知推送
 const JD_API_HOST = 'https://api.m.jd.com/client.action';

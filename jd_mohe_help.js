@@ -3,7 +3,7 @@
 =================================Quantumultx=========================
 [task_local]
 #5G超级盲盒
-5 0,4,8,18 * * * jd_mohe_help.js
+5 11,16 * * * jd_mohe_help.js
 
 
  */
@@ -13,7 +13,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送
 let cookiesArr = [], cookie = '', message, allMessage = '';
 
-let Code_num = process.env.code_num || 20;   //内置助力人数
+let Code_num = process.env.code_num || 15;   //内置助力人数
 
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {

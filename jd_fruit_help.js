@@ -3,7 +3,7 @@
 ==========================Quantumultx=========================
 [task_local]
 #jd免费水果
-20 0,4,6,9 * * * jd_fruit_help.js
+20 11 * * * jd_fruit_help.js
 
 
 */
@@ -24,7 +24,7 @@ let shareCodes = [ // 这个列表填入你要助力的好友的shareCode
 ]
 let newShareCodes=[];
 
-let Code_num = process.env.code_num || 20;   //内置助力人数
+let Code_num = process.env.code_num || 15;   //内置助力人数
 
 let message = '',
     subTitle = '',

@@ -5,7 +5,7 @@
 活动入口：京喜APP-我的-京喜财富岛互助
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
-
+0 11 * * * jd_cfd_help.js
   
 */
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {

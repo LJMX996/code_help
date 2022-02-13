@@ -2,7 +2,7 @@
 
 =====================================Quantumult X=================================
 [task_local]
-40 0,4,8 * * * jd_plantBean_help.js
+40 10,18 * * * jd_plantBean_help.js
 
 
 
@@ -12,7 +12,7 @@ const $ = new Env('种豆得豆内部互助');
 //ios等软件用户直接用NobyDa的jd cookie
 let jdNotify = true;//是否开启静默运行。默认true开启
 
-let Code_num = process.env.code_num || 20;   //内置助力人数
+let Code_num = process.env.code_num || 15;   //内置助力人数
 
 let cookiesArr = [], cookie = '', jdPlantBeanShareArr = [], isBox = false, notify, newShareCodes, option, message, subTitle;
 //京东接口地址

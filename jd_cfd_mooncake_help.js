@@ -1,6 +1,6 @@
 /*
 京喜财富岛合成珍珠互助
-20 0 * * * jd_cfd_mooncake.js
+20 10 * * * jd_cfd_mooncake.js
 
  */
 !function (t, r) { "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r() }(this, function () {

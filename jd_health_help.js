@@ -7,7 +7,7 @@
 ===================quantumultx================
 [task_local]
 #东东健康社区
-5 0,4,6,8 * * * jd_health_help.js
+5 11,14 * * * jd_health_help.js
 
 
  */
@@ -20,7 +20,7 @@ const randomCount = $.isNode() ? 20 : 5;
 $.newShareCodes = [];
 let UserShareCodes = "";
 
-let Code_num = process.env.code_num || 20;   //内置助力人数
+let Code_num = process.env.code_num || 15;   //内置助力人数
 
 function oc(fn, defaultVal) { //optioanl chaining
 	try {

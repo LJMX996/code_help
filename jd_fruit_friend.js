@@ -3,7 +3,7 @@
 ==========================Quantumultx=========================
 [task_local]
 #jd免费水果
-10 2,5,17 * * * jd_fruit_friend.js
+10 12 * * * jd_fruit_friend.js
 */
 const $ = new Env('东东农场好友删减奖励');
 let cookiesArr = [], cookie = '', isBox = false, notify,allMessage = '';
