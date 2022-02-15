@@ -114,10 +114,7 @@ async function doHelp() {
     console.log(`【${$.UserName}】开始助力: ${plantUuid}`);
     if (!plantUuid) continue;
     await plantBeanIndex();
-    if ($.plantBeanIndexResult.errorCode === 'PB101') {
-      console.log(`\n活动太火爆了，还是去买买买吧！\n`)
-      return
-    }
+    
     if (plantUuid === $.myPlantUuid || $.plantBeanIndexResult.errorCode === 'PB101' ) {
       console.log(`\n跳过自己的plantUuid\n`)
       continue
