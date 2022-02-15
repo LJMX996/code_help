@@ -110,17 +110,24 @@ async function jdPlantBean() {
 async function doHelp() {
   for (let plantUuid of newShareCodes) {
     console.log(`开始助力`);
+  
+    console.log(`【${$.UserName}】开始助力: ${plantUuid}`);
     if (!plantUuid) continue;
-    if (plantUuid === $.myPlantUuid) {
+    await plantBeanIndex();
+    if ($.plantBeanIndexResult.errorCode === 'PB101') {
+      console.log(`\n活动太火爆了，还是去买买买吧！\n`)
+      return
+    }
+    if (plantUuid === $.myPlantUuid || $.plantBeanIndexResult.errorCode === 'PB101' ) {
       console.log(`\n跳过自己的plantUuid\n`)
       continue
     }
     await helpShare(plantUuid);
     if ($.helpResult && $.helpResult.code === '0') {
-     
+      console.log(`助力好友结果: ${JSON.stringify($.helpResult.data.helpShareRes)}`);
       if ($.helpResult.data.helpShareRes) {
         if ($.helpResult.data.helpShareRes.state === '1') {
-          console.log(`助力好友成功`)
+          console.log(`助力好友${plantUuid}成功`)
           console.log(`${$.helpResult.data.helpShareRes.promptText}\n`);
         } else if ($.helpResult.data.helpShareRes.state === '2') {
           console.log('您今日助力的机会已耗尽，已不能再帮助好友助力了\n');
@@ -135,6 +142,7 @@ async function doHelp() {
       }
     } else {
       console.log(`助力好友失败: ${JSON.stringify($.helpResult)}`);
+	  break;
     }
   }
 }
