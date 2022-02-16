@@ -36,7 +36,7 @@ let num;
       $.nickName = '';
       await TotalBean();
       console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
-      if (!$.isLogin) {
+      if (!$.isLogin) {   
         $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
 
         if ($.isNode()) {
@@ -56,8 +56,9 @@ let num;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+    
+    console.log(`开始助力\n`);
 
-      console.log('\n【账号${$.index}】${$.nickName || $.UserName}开始助力好友')
 
   console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
     
@@ -111,9 +112,18 @@ async function doHelp() {
 
     
     await plantBeanIndex();
-    if ($.plantBeanIndexResult.errorCode === 'PB101') {
+    
+    if ($.plantBeanIndexResult) {
+       
+      if ($.plantBeanIndexResult.errorCode === 'PB101') {
       console.log(`\n活动太火爆了，还是去买买买吧！\n`)
       return
+    }
+    
+  } else {
+    console.log(`\n没有获取到errorcode！\n`)
+    return
+    
     }
     
     
@@ -124,8 +134,8 @@ async function doHelp() {
     if (!plantUuid) continue;
     
 
-    if (plantUuid === $.myPlantUuid || $.plantBeanIndexResult.errorCode === 'PB101' ) {
-      console.log(`\n跳过自己的plantUuid\n`)
+    if ($.plantBeanIndexResult.errorCode === 'PB101' ) {
+      console.log(`\n跳过plantUuid\n`)
       continue
     }
     await helpShare(plantUuid);
