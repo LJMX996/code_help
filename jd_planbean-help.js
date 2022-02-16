@@ -60,9 +60,9 @@ let num;
       console.log('开始助力好友')
 
   console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
-  
-
-await  doHelp()
+    
+    
+    await  doHelp()
   
   }
 })().catch((e) => {
@@ -108,13 +108,22 @@ async function jdPlantBean() {
 
 //助力好友
 async function doHelp() {
+
+    
+    await plantBeanIndex();
+    if ($.plantBeanIndexResult.errorCode === 'PB101') {
+      console.log(`\n活动太火爆了，还是去买买买吧！\n`)
+      return
+    }
+    
+    
   for (let plantUuid of newShareCodes) {
     console.log(`开始助力`);
   
     console.log(`【${$.UserName}】开始助力: ${plantUuid}`);
     if (!plantUuid) continue;
-    await plantBeanIndex();
     
+
     if (plantUuid === $.myPlantUuid || $.plantBeanIndexResult.errorCode === 'PB101' ) {
       console.log(`\n跳过自己的plantUuid\n`)
       continue
