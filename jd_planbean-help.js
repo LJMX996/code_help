@@ -120,7 +120,7 @@ async function doHelp() {
   for (let plantUuid of newShareCodes) {
     console.log(`开始助力`);
   
-    console.log(`【${$.UserName}】开始助力: ${plantUuid}`);
+    console.log(`【${$.UserName}】开始助力: \n  ${plantUuid}`);
     if (!plantUuid) continue;
     
 
