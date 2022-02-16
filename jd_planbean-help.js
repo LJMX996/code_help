@@ -57,7 +57,7 @@ let num;
     cookie = cookiesArr[i];
     $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
 
-      console.log('开始助力好友')
+      console.log('\n【账号${$.index}】${$.nickName || $.UserName}开始助力好友')
 
   console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
     
