@@ -67,8 +67,8 @@ let llhelp=true;
             option = {};
             $.retry = 0;
 		  await GetCollect();
-		  console.log(`等待10s`);
-		  await $.wait(10000);
+		  console.log(`等待5s`);
+		  await $.wait(5000);
 		}
 	  }
 	}
