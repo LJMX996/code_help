@@ -67,6 +67,8 @@ let llhelp=true;
             option = {};
             $.retry = 0;
 		  await GetCollect();
+		  console.log(`等待10s`);
+		  await $.wait(10000);
 		}
 	  }
 	}
@@ -92,6 +94,8 @@ let llhelp=true;
             option = {};
             $.retry = 0;
             await jdFruit();
+            console.log(`等待5秒`);
+            await $.wait(5000);
         }
     }
     if ($.isNode() && allMessage && $.ctrTemp) {
@@ -115,6 +119,8 @@ async function jdFruit() {
             console.log(`\n【已成功兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`);
             //message += `【已兑换水果】${$.farmInfo.farmUserPro.winTimes}次\n`;
             await masterHelpShare(); //助力好友
+            console.log(`等待3秒`);
+            await $.wait(3000);
 			await turntableFarm();//天天抽奖得好礼
             if ($.farmInfo.treeState === 2 || $.farmInfo.treeState === 3) {
                 option['open-url'] = urlSchema;
