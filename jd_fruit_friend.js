@@ -45,6 +45,8 @@ let llhelp=true;
 		  option = {};
 		  $.retry = 0;
 		  await GetCollect();
+		  console.log(`等待3秒`);
+          await $.wait(3000); 
 		}
 	  }
   }
@@ -70,6 +72,8 @@ let llhelp=true;
       option = {};
       $.retry = 0;
       await jdFruit();
+      console.log(`等待30秒`);
+      await $.wait(30000); 
     }
   }
   if ($.isNode() && allMessage && $.ctrTemp) {
@@ -86,6 +90,8 @@ async function jdFruit() {
   subTitle = `【京东账号${$.index}】${$.nickName || $.UserName}`;
   try {
     await initForFarm();
+    console.log(`等待3秒`);
+    await $.wait(3000); 
     await getAwardInviteFriend();//删除好友与接受邀请成为别人的好友
     if ($.farmInfo.farmUserPro) {
      message = `删除好友与接受好友邀请已完成`;
@@ -139,6 +145,8 @@ async function receiveFriendInvite() {
       continue
     }
     await inviteFriend(code);
+    console.log(`等待3秒`);
+    await $.wait(3000); 
     if ($.inviteFriendRes && $.inviteFriendRes.helpResult && $.inviteFriendRes.helpResult.code === '0') {
       console.log(`接收邀请成为好友结果成功,您已成为${$.inviteFriendRes.helpResult.masterUserInfo.nickName}的好友`)
     } else if ($.inviteFriendRes && $.inviteFriendRes.helpResult && $.inviteFriendRes.helpResult.code === '17') {
@@ -153,8 +161,8 @@ async function GetCollect() {
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}互助码】${$.farmInfo.farmUserPro.shareCode}`);
       newShareCodes.push($.farmInfo.farmUserPro.shareCode)
     } else {
-      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}互助码】\n数据异常,使用City的互助码:4921b9fe76a340f695f9621b53f35cf5`);
-	  newShareCodes.push("4921b9fe76a340f695f9621b53f35cf5");
+      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}互助码】\n数据异常,使用作者的互助码:sbsbsbsbsbsb`);
+	  newShareCodes.push("sbsbsbsbsbsb");
     }
   } catch (e) {
     $.logErr(e);
