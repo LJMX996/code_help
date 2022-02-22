@@ -222,8 +222,12 @@ async function masterHelpShare() {
   let helpSuccessPeoples = '';//成功助力好友
   if(llhelp){
 	  console.log('开始助力好友')
+	  console.log('等待4秒');
+      await $.wait(4000);
 	  for (let code of newShareCodes) {
 		console.log(`${$.UserName}开始助力: ${code}`);
+		console.log('等待3秒');
+      await $.wait(3000);
 		if (!code) continue;
 		if (!$.farmInfo.farmUserPro) {
 		  console.log('未种植,跳过助力\n')
