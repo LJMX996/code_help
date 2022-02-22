@@ -49,7 +49,8 @@ let num;
       option = {};
       
       await jdPlantBean();
-      
+      console.log('等待4秒');
+      await $.wait(4000);
     }
   }
       console.log(`\n开始账号内互助\n`);
@@ -64,6 +65,8 @@ let num;
     
     
     await  doHelp()
+    console.log('等待4秒');
+    await $.wait(4000);
   
   }
 })().catch((e) => {

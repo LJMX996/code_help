@@ -58,8 +58,11 @@ $.newShareCode = [];
       subTitle = '';
       option = {};
       await jdPlantBean();
+      console.log('等待10秒');
+      await $.wait(10000);
 	  await doHelp();
-	  await $.wait(2000);
+	  console.log('等待10秒');
+      await $.wait(10000);
     }
   }
   if ($.isNode() && allMessage) {
