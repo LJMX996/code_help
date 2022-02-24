@@ -3,7 +3,11 @@
 
 
 ### 自动互助提示
-使用上面定时导出助力默认是助力前20个账号
+
+   ```diff
+ql repo https://github.com/LJMX996/code_help.git "jd_" "tmp" "USER_AGENTS.js|sendNotify.js|ql.js|JS_USER_AGENTS.js|jdCookie.js"
+   ```
+使用上面拉库默认是助力前15个账号
 如果想助力其他数量账号，请添加变量，例如👇🏻
 
    ```diff
