@@ -94,8 +94,8 @@ let llhelp=true;
             option = {};
             $.retry = 0;
             await jdFruit();
-            console.log(`等待15秒`);
-            await $.wait(15000);
+            console.log(`等待60秒`);
+            await $.wait(60000);
         }
     }
     if ($.isNode() && allMessage && $.ctrTemp) {
