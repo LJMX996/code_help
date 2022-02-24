@@ -159,6 +159,8 @@ let llgetshare=false;
 async function jdFruit() {
   subTitle = `【京东账号${$.index}】${$.nickName || $.UserName}`;
   try {
+      
+      console.log(`格式化后的助力码::${JSON.stringify(newShareCodes)}\n`);
     
       await masterHelpShare();//助力好友
       console.log(`等待5秒`);
