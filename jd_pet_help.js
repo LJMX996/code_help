@@ -35,7 +35,7 @@ if ($.isNode()) {
 
 let NowHour = new Date().getHours();
 let llhelp=true;
-
+let lnrun = 0;
 console.log(`共${cookiesArr.length}个京东账号\n`);
 
 !(async() => {
@@ -72,8 +72,7 @@ console.log(`共${cookiesArr.length}个京东账号\n`);
 				taskInfoKey = [];
 				option = {};
 				await GetShareCode();
-				console.log('等待4秒');
-                await $.wait(4000);
+				await $.wait(3 * 1000);
 			}
 		}
 		console.log('\n互助码收集完毕，开始执行内部助力...\n');
@@ -103,8 +102,13 @@ console.log(`共${cookiesArr.length}个京东账号\n`);
             goodsUrl = '';
             taskInfoKey = [];
             option = {};
-            await jdPet();
-			await $.wait(30 * 1000);
+            lnrun++;
+			await jdPet();
+			if (lnrun == 3) {
+              console.log(`\n【访问接口次数达到3次，休息一分钟.....】\n`);
+              await $.wait(60 * 1000);
+              lnrun = 0;
+			}
         }
     }
     if ($.isNode() && allMessage && $.ctrTemp) {
@@ -407,7 +411,7 @@ async function showMsg() {
         $.msg($.name, subTitle, message, option);
         if ($.isNode()) {
             allMessage += `${subTitle}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`
-            // console.log(`${$.name} - 账号${$.index} - ${$.nickName || $.UserName}`, `${subTitle}\n${message}`);
+            // await notify.sendNotify(`${$.name} - 账号${$.index} - ${$.nickName || $.UserName}`, `${subTitle}\n${message}`);
         }
     } else {
         $.log(`\n${message}\n`);

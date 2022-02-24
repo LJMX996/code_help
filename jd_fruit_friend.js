@@ -11,11 +11,29 @@ let newShareCodes=[];
 let message = '', subTitle = '', option = {}, isFruitFinished = false;
 const retainWater = $.isNode() ? (process.env.retainWater ? process.env.retainWater : 100) : ($.getdata('retainWater') ? $.getdata('retainWater') : 100);//保留水滴大于多少g,默认100g;
 let jdNotify = false;//是否关闭通知，false打开通知推送，true关闭通知推送
+
+let Code_num = process.env.code_num || 15;   //内置助力人数
+
 let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活动时100g水换20豆,此时比浇水划算,推荐换豆),true表示换豆(不浇水),false表示不换豆(继续浇水),脚本默认是浇水
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
 let NowHour = new Date().getHours();
-let llhelp=true;
+let llhelp = true;
+const fs = require('fs');
+let boolneedUpdate = false;
+let strShare = './Fruit_ShareCache.json';
+let Fileexists = fs.existsSync(strShare);
+let TempShareCache = [];
+if (Fileexists) {
+    console.log("检测到东东农场缓存文件Fruit_ShareCache.json，载入...");
+    TempShareCache = fs.readFileSync(strShare, 'utf-8');
+    if (TempShareCache) {
+        TempShareCache = TempShareCache.toString();
+        TempShareCache = JSON.parse(TempShareCache);
+    }
+}
+let lnrun = 0;
+let llgetshare = false;
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -23,59 +41,83 @@ let llhelp=true;
     return;
   }
   if(llhelp){
-	  console.log('开始收集您的互助码，用于好友删除与加好友操作');
-	  for (let i = 0; i < cookiesArr.length; i++) {
-		if (cookiesArr[i]) {
-		  cookie = cookiesArr[i];
-		  $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-		  $.index = i + 1;
-		  $.isLogin = true;
-		  $.nickName = '';
-		  await TotalBean();      
-		  if (!$.isLogin) {
-			$.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+	  console.log('\n【开始收集您的互助码，用于好友删除与加好友操作】\n');
+    for (let i = 0; i < Code_num; i++) {
+        if (cookiesArr[i]) {
+            cookie = cookiesArr[i];
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+            $.index = i + 1;
+            $.isLogin = true;
+            $.nickName = '';
+            await TotalBean();
+            if (!$.isLogin) {
+                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
 
-			if ($.isNode()) {
-			  console.log(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-			}
-			continue
-		  }
-		  message = '';
-		  subTitle = '';
-		  option = {};
-		  $.retry = 0;
-		  await GetCollect();
-		  console.log(`等待3秒`);
-          await $.wait(3000); 
-		}
-	  }
-  }
-  for (let i = 0; i < cookiesArr.length; i++) {
-    if (cookiesArr[i]) {
-      cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
-      $.index = i + 1;
-      $.isLogin = true;
-      $.nickName = '';
-      await TotalBean();
-      console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
-
-        if ($.isNode()) {
-          console.log(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        }
-        continue
+                  if ($.isNode()) {
+                      await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                  }
+                  continue
+              }
+              message = '';
+              subTitle = '';
+              option = {};
+              $.retry = 0;
+			  llgetshare = false;
+              await GetCollect();
+			  if(llgetshare){
+				  await $.wait(5000);
+				  lnrun++;				  
+			  }
+			  if(lnrun == 10){
+				  console.log(`\n【访问接口次数达到10次，休息一分钟.....】\n`);
+				  await $.wait(60*1000);
+				  lnrun = 0;
+			  }
+          }
       }
-      message = '';
-      subTitle = '';
-      option = {};
-      $.retry = 0;
-      await jdFruit();
-      console.log(`等待30秒`);
-      await $.wait(30000); 
-    }
+      if (1 == 0) {
+          var str = JSON.stringify(TempShareCache, null, 2);
+          fs.writeFile(strShare, str, function (err) {
+              if (err) {
+                  console.log(err);
+                  console.log("\n【缓存文件Fruit_ShareCache.json更新失败!】\n");
+              } else {
+                  console.log("\n【缓存文件Fruit_ShareCache.json更新成功!】\n");
+              }
+          })
+      }
   }
+  console.log('\n【互助码已经收集完毕，现在开始账号内部互助，请稍等...】\n');
+    for (let i = 0; i < cookiesArr.length; i++) {
+        if (cookiesArr[i]) {
+            cookie = cookiesArr[i];
+            $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+            $.index = i + 1;
+            $.isLogin = true;
+            $.nickName = '';
+            await TotalBean();
+            console.log(`\n开始【京东账号${$.index}】${$.nickName || $.UserName}\n`);
+            if (!$.isLogin) {
+                $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/bean/signIndex.action`, { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
+
+                if ($.isNode()) {
+                    await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                }
+                continue
+            }
+            message = '';
+            subTitle = '';
+            option = {};
+            $.retry = 0;
+          lnrun++;
+          await jdFruit();
+          if (lnrun == 5) {
+              console.log(`\n【访问接口次数达到5次，休息一分钟.....】\n`);
+              await $.wait(60 * 1000);
+              lnrun = 0;
+          }
+        }
+    }
   if ($.isNode() && allMessage && $.ctrTemp) {
     console.log(`${$.name}`, `${allMessage}`)
   }
@@ -90,8 +132,6 @@ async function jdFruit() {
   subTitle = `【京东账号${$.index}】${$.nickName || $.UserName}`;
   try {
     await initForFarm();
-    console.log(`等待3秒`);
-    await $.wait(3000); 
     await getAwardInviteFriend();//删除好友与接受邀请成为别人的好友
     if ($.farmInfo.farmUserPro) {
      message = `删除好友与接受好友邀请已完成`;
@@ -145,8 +185,6 @@ async function receiveFriendInvite() {
       continue
     }
     await inviteFriend(code);
-    console.log(`等待3秒`);
-    await $.wait(3000); 
     if ($.inviteFriendRes && $.inviteFriendRes.helpResult && $.inviteFriendRes.helpResult.code === '0') {
       console.log(`接收邀请成为好友结果成功,您已成为${$.inviteFriendRes.helpResult.masterUserInfo.nickName}的好友`)
     } else if ($.inviteFriendRes && $.inviteFriendRes.helpResult && $.inviteFriendRes.helpResult.code === '17') {
@@ -155,18 +193,44 @@ async function receiveFriendInvite() {
   }
 }
 async function GetCollect() {
-  try {
-    await initForFarm();
-    if ($.farmInfo.farmUserPro) {
-      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}互助码】${$.farmInfo.farmUserPro.shareCode}`);
-      newShareCodes.push($.farmInfo.farmUserPro.shareCode)
-    } else {
-      console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}互助码】\n数据异常,使用作者的互助码:sbsbsbsbsbsb`);
-	  newShareCodes.push("sbsbsbsbsbsb");
+    try {
+		console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】`);
+        var llfound = false;
+        var strShareCode = "";
+        if (TempShareCache) {
+            for (let j = 0; j < TempShareCache.length; j++) {
+                if (TempShareCache[j].pt_pin == $.UserName) {
+                    llfound = true;
+                    strShareCode = TempShareCache[j].ShareCode;
+                }
+            }
+        }
+        if (!llfound) {
+            console.log($.UserName + "该账号无缓存，尝试联网获取互助码.....");
+			llgetshare=true;
+            await initForFarm();			
+            if ($.farmInfo.farmUserPro) {
+                var tempAddCK = {};
+				strShareCode=$.farmInfo.farmUserPro.shareCode;
+                tempAddCK = {
+                    "pt_pin": $.UserName,
+                    "ShareCode": strShareCode
+                };
+                TempShareCache.push(tempAddCK);
+                //标识，需要更新缓存文件
+                boolneedUpdate = true;
+            }
+        }
+
+        if (strShareCode) {
+            console.log(`\n`+strShareCode);
+            newShareCodes.push(strShareCode)
+        } else {
+            console.log(`\n数据异常`);
+        }
+    } catch (e) {
+        $.logErr(e);
     }
-  } catch (e) {
-    $.logErr(e);
-  }
 }
 // ========================API调用接口========================
 //鸭子，点我有惊喜
@@ -555,7 +619,7 @@ function TotalBean() {
     })
   })
 }
-function request(function_id, body = {}, timeout = 1000) {
+function request(function_id, body = {}, timeout = 2000) {
   return new Promise(resolve => {
     setTimeout(() => {
       $.get(taskUrl(function_id, body), (err, resp, data) => {
