@@ -94,8 +94,8 @@ let llhelp=true;
             option = {};
             $.retry = 0;
             await jdFruit();
-            console.log(`等待30秒`);
-            await $.wait(30000);
+            console.log(`等待15秒`);
+            await $.wait(15000);
         }
     }
     if ($.isNode() && allMessage && $.ctrTemp) {
@@ -251,6 +251,7 @@ async function masterHelpShare() {
 			console.log(`【助力好友结果】: 之前给【${$.helpResult.helpResult.masterUserInfo.nickName}】助力过了`);
 		  } else if ($.helpResult.helpResult.code === '10') {
 			console.log(`【助力好友结果】: 好友【${$.helpResult.helpResult.masterUserInfo.nickName}】已满五人助力`);
+			newShareCodes.remove(code);
 		  } else {
 			console.log(`助力其他情况：${JSON.stringify($.helpResult.helpResult)}`);
 		  }
@@ -305,6 +306,22 @@ async function GetCollect() {
     $.logErr(e);
   }
 }
+
+
+Array.prototype.indexOf = function(val) {
+for (var i = 0; i < this.length; i++) {
+if (this[i] == val) return i;
+}
+return -1;
+};
+
+
+Array.prototype.remove = function(val) {
+var index = this.indexOf(val);
+if (index > -1) {
+this.splice(index, 1);
+}
+};
 // ========================API调用接口========================
 //鸭子，点我有惊喜
 async function getFullCollectionReward() {

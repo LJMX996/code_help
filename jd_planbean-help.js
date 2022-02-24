@@ -153,6 +153,7 @@ async function doHelp() {
           break;
         } else if ($.helpResult.data.helpShareRes.state === '3') {
           console.log('该好友今日已满9人助力/20瓶营养液,明天再来为Ta助力吧\n')
+          newShareCodes.remove(plantUuid);
         } else if ($.helpResult.data.helpShareRes.state === '4') {
           console.log(`${$.helpResult.data.helpShareRes.promptText}\n`)
         } else {
@@ -165,6 +166,24 @@ async function doHelp() {
     }
   }
 }
+
+
+
+Array.prototype.indexOf = function(val) {
+for (var i = 0; i < this.length; i++) {
+if (this[i] == val) return i;
+}
+return -1;
+};
+
+
+Array.prototype.remove = function(val) {
+var index = this.indexOf(val);
+if (index > -1) {
+this.splice(index, 1);
+}
+};
+
 function showMsg() {
   $.log(`\n${message}\n`);
   jdNotify = $.getdata('jdPlantBeanNotify') ? $.getdata('jdPlantBeanNotify') : jdNotify;

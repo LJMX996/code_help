@@ -220,6 +220,7 @@ async function slaveHelp() {
 			}
 			if(llnoneed){
 				console.log(`${code}助力已满，跳过...`);
+				newShareCodes.remove(code);
 				continue;
 			}
 		}
@@ -241,6 +242,7 @@ async function slaveHelp() {
                 //该好友已满5人助力，无需您再次助力				
 				NoNeedCodes.push(code);
                 console.log(`该好友${response.result.masterNickName}已满5人助力，无需您再次助力`);
+                newShareCodes.remove(code);
             } else {
                 console.log(`助力其他情况：${JSON.stringify(response)}`);
             }
@@ -258,6 +260,24 @@ async function slaveHelp() {
         message += `【您助力的好友】${helpPeoples.substr(0, helpPeoples.length - 1)}\n`;
     }
 }
+
+
+
+Array.prototype.indexOf = function(val) {
+for (var i = 0; i < this.length; i++) {
+if (this[i] == val) return i;
+}
+return -1;
+};
+
+
+Array.prototype.remove = function(val) {
+var index = this.indexOf(val);
+if (index > -1) {
+this.splice(index, 1);
+}
+};
+
 // 初始化任务, 可查询任务完成情况
 async function taskInit() {
     console.log('开始任务初始化');
