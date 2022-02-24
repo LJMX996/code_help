@@ -23,7 +23,7 @@ let shareCodes = [ // 这个列表填入你要助力的好友的shareCode
     //     '5853550f71014282912b76d95beb84c0@b58ddba3317b44ceb0ac86ea8952998c@8d724eb95e3847b6a1526587d1836f27@a80b7d1db41a4381b742232da9d22443@ce107b8f64d24f62a92292180f764018@c73ea563a77d4464b273503d3838fec1@0dd9a7fd1feb449fb1bf854a3ec0e801',
 ]
 let newShareCodes=[];
-
+let chouShareCodes=[];
 let Code_num = process.env.code_num || 15;   //内置助力人数
 
 let message = '',
@@ -160,12 +160,14 @@ async function turntableFarm() {
     let {timingIntervalHours, timingLastSysTime, sysTime, remainLotteryTimes, turntableInfos} = $.initForTurntableFarmRes;
     //天天抽奖助力
     console.log('开始天天抽奖--好友助力--每人每天只有三次助力机会.')
-    for (let code of newShareCodes) {
+    for (let code of chouShareCodes) {
       if (code === $.farmInfo.farmUserPro.shareCode) {
         console.log('天天抽奖-不能自己给自己助力\n')
         continue
       }
       await lotteryMasterHelp(code);
+      console.log(`等待5秒`);
+      await $.wait(5000);
       if ($.lotteryMasterHelpRes.helpResult.code === '0') {
         console.log(`天天抽奖-助力${$.lotteryMasterHelpRes.helpResult.masterUserInfo.nickName}成功\n`)
       } else if ($.lotteryMasterHelpRes.helpResult.code === '11') {
@@ -177,7 +179,7 @@ async function turntableFarm() {
     }
     console.log(`天天抽奖次数共-${remainLotteryTimes}次`)
     //抽奖
-    if (remainLotteryTimes > 0) {
+    if (1 == 0) {
       console.log('开始抽奖')
       let lotteryResult = '';
       for (let i = 0; i < new Array(remainLotteryTimes).fill('').length; i++) {
@@ -299,6 +301,7 @@ async function GetCollect() {
     if ($.farmInfo.farmUserPro) {
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${$.farmInfo.farmUserPro.shareCode}`);
       newShareCodes.push($.farmInfo.farmUserPro.shareCode)
+      chouShareCodes.push($.farmInfo.farmUserPro.shareCode)
     } else {
       console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】\n数据异常`);
     }
