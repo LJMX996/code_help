@@ -2,7 +2,7 @@
 
 =====================================Quantumult X=================================
 [task_local]
-40 10,18 * * * jd_plantBean_help.js
+40 18 * * * jd_plantBean_help.js
 
 
 
