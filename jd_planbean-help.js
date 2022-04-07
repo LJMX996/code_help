@@ -142,8 +142,9 @@ async function doHelp() {
       continue
     }
     await helpShare(plantUuid);
+    $.helpShareRes = $.helpResult.data.helpShareRes || "❌❌❌❌"
     if ($.helpResult && $.helpResult.code === '0') {
-      console.log(`助力好友结果: ${JSON.stringify($.helpResult.data.helpShareRes)}`);
+      console.log(`助力好友结果: ${JSON.stringify($.helpShareRes)}`);
       if ($.helpResult.data.helpShareRes) {
         if ($.helpResult.data.helpShareRes.state === '1') {
           console.log(`助力好友${plantUuid}成功`)
