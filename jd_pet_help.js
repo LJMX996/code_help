@@ -255,7 +255,10 @@ async function slaveHelp() {
 			if(response.message=="已经助过力"){
 				console.log(`此账号今天已经跑过助力了，跳出....`);
 				break;
-			}else{
+			} else if (response.message=="风控") {
+                console.log(`此账号风控，跳出....`);
+				break;
+            }else{
 				console.log(`助力好友结果: ${response.message}`);
 			}
 				
